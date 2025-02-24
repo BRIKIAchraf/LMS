@@ -1,19 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import React from "react";
-import { SignedIn, SignedOut, Userbutton, useUser } from "@clerk/nextjs";
+
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { Bell, BookOpen } from "lucide-react";
 import Link from "next/link";
-import { dark } from "@clerk/themes";
-export const NonDashboardNavbar = () => {
+import React from "react";
+
+const NonDashboardNavbar = () => {
   const { user } = useUser();
   const userRole = user?.publicMetadata?.userType as "student" | "teacher";
+
   return (
     <nav className="nondashboard-navbar">
       <div className="nondashboard-navbar__container">
         <div className="nondashboard-navbar__search">
-          <Link href="/" className="nondahsboard-navbar__brand" scroll={false}>
-            FoxTechAcademy
+          <Link href="/" className="nondashboard-navbar__brand" scroll={false}>
+            EDROH
           </Link>
           <div className="flex items-center gap-4">
             <div className="relative group">
@@ -22,10 +24,9 @@ export const NonDashboardNavbar = () => {
                 className="nondashboard-navbar__search-input"
                 scroll={false}
               >
-                <span className="hidden sm: inline">Search Courses</span>
-                <span className="sm:hidden">search</span>
+                <span className="hidden sm:inline">Search Courses</span>
+                <span className="sm:hidden">Search</span>
               </Link>
-
               <BookOpen
                 className="nondashboard-navbar__search-icon"
                 size={18}
@@ -40,19 +41,21 @@ export const NonDashboardNavbar = () => {
           </button>
 
           <SignedIn>
-            <Userbutton
+            <UserButton
               appearance={{
                 baseTheme: dark,
-                elements: {},
+                elements: {
+                  userButtonOuterIdentifier: "text-customgreys-dirtyGrey",
+                  userButtonBox: "scale-90 sm:scale-100",
+                },
               }}
               showName={true}
               userProfileMode="navigation"
               userProfileUrl={
-                userRole === "teacher" ? "/teacher/profile" : "/student/profile"
+                userRole === "teacher" ? "/teacher/profile" : "/user/profile"
               }
             />
           </SignedIn>
-
           <SignedOut>
             <Link
               href="/signin"
@@ -74,3 +77,5 @@ export const NonDashboardNavbar = () => {
     </nav>
   );
 };
+
+export default NonDashboardNavbar;
