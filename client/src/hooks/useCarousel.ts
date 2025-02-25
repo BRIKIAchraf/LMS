@@ -1,7 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 
-interface useCarouselProps {
+interface UseCarouselProps {
   totalImages: number;
   interval?: number;
 }
+
+export const useCarousel = ({
+  totalImages,
+  interval = 20,
+}: UseCarouselProps) => {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % totalImages);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [totalImages, interval]);
+
+  return currentImage;
+};
